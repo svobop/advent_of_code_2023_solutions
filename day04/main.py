@@ -20,10 +20,21 @@ def process_data(data):
             games = games.split("|")
             winning_numbers = games[0].split()
             draw_numbers = games[1].split()
-            games_column.append([[int(_) for _ in winning_numbers], [_.strip() for _ in draw_numbers]])
+            games_column.append([[int(_) for _ in winning_numbers], [int(_) for _ in draw_numbers]])
     return dict(zip(labels_column, games_column))
 
 
-print(process_data(test_data))
+def test_case():
+    data = process_data(test_data)
+    total_points = 0
+    for game, numbers in data.items():
+        match_count = 0
+        for draw_number in numbers[1]:
+            if draw_number in numbers[0]:
+                match_count += 1
+        card_points = 0 if match_count == 0 else 2**(match_count-1)
+        total_points += card_points
 
-print()
+    return total_points == 13
+
+if __name__ == '__main__':
