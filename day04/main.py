@@ -6,6 +6,8 @@ Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
 Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
 """
 
+with open("input.txt") as f:
+    data = f.read()
 
 def process_data(data):
     data = data.split("\n")
@@ -26,15 +28,23 @@ def process_data(data):
 
 def test_case():
     data = process_data(test_data)
+    total_points = score_points(data)
+    return total_points == 13
+
+
+def score_points(data):
     total_points = 0
     for game, numbers in data.items():
         match_count = 0
         for draw_number in numbers[1]:
             if draw_number in numbers[0]:
                 match_count += 1
-        card_points = 0 if match_count == 0 else 2**(match_count-1)
+        card_points = 0 if match_count == 0 else 2 ** (match_count - 1)
         total_points += card_points
+    return total_points
 
-    return total_points == 13
 
 if __name__ == '__main__':
+    if test_case():
+        print("test passed")
+    print(score_points(process_data(data)))
