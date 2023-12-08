@@ -29,8 +29,15 @@ def process_data(data):
 def test_case():
     data = process_data(test_data)
     total_points = score_points(data)
+    print(total_points)
     return total_points == 13
 
+
+def test_case2():
+    data = process_data(test_data)
+    total_cards = duplicate_cards(data)
+    print(total_cards)
+    return total_cards == 30
 
 def score_points(data):
     total_points = 0
@@ -43,8 +50,37 @@ def score_points(data):
         total_points += card_points
     return total_points
 
+def duplicate_cards(data):
+    number_of_copies = dict()
+    for game, numbers in data.items():
+        copies_of_current_card = number_of_copies.get(game, 1)
+        match_count = 0
+        for draw_number in numbers[1]:
+            if draw_number in numbers[0]:
+                match_count += 1
+        game_number = int(game.split()[1])
+        for i in range(game_number, game_number + match_count+1):
+            game_ = "Card " + str(i).rjust(3, ' ')
+            if number_of_copies.get(game_) and i != game_number:
+                number_of_copies[game_] += copies_of_current_card
+            elif i == game_number:
+                number_of_copies[game_] = copies_of_current_card
+            else:
+                number_of_copies[game_] = 1 + copies_of_current_card
+
+        # print(game)
+        # print(list(range(game_number, game_number + match_count+1)))
+        # print(number_of_copies)
+    return sum(number_of_copies.values())
 
 if __name__ == '__main__':
     if test_case():
         print("test passed")
+    else:
+        print("test failed")
+    if test_case2():
+        print("test passed")
+    else:
+        print("test failed")
     print(score_points(process_data(data)))
+    print(duplicate_cards(process_data(data)))
