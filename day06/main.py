@@ -1,3 +1,5 @@
+from math import sqrt
+
 def process_data(file):
     with open(file) as f:
         for row in f:
@@ -18,6 +20,9 @@ def process_data_(file):
 
 def distance_formula(time, hold_time):
     return (time-hold_time)*hold_time
+
+def hold_time_formula(time, distance):
+    return (time - sqrt(time**2-4*distance))/2, (time + sqrt(time**2-4*distance))/2
 
 def derivative_distance_formula(time, hold_time):
     return (time-2*hold_time)
@@ -71,6 +76,13 @@ def task_two(input):
             ways_to_win.append(optimum_hold_time_ - increment)
             increment += 1
         product *= len(ways_to_win)
+    return product
+
+def task_two_use_formula(input): # super fast but inexact because of rounding errors
+    product = 1
+    for time, distance in process_data_(input):
+        print(time, distance)
+        product *= abs(2*(hold_time_formula(time, distance)[0]-optimum_hold_time(time)))-1
     return product
 
 print(task_two("input.txt"))
