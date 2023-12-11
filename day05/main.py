@@ -38,14 +38,19 @@ def read_map(f):
             break
         numbers = [int(_) for _ in row.split()]
         map.append(numbers)
-    return sorted(map, key=lambda x: x[1])
+    return sorted(map, key=lambda x: x[0])
 
 def apply_map(seed, map):
+    map = sorted(map, key=lambda x: x[1])
     for row in map:
-        if seed == 81:
-            pass
         if row[1] <= seed < row[1]+row[2]:
             return row[0] + (seed - row[1])
+    return seed
+
+def inverze_apply_map(seed, map):
+    for row in map:
+        if row[0] <= seed < row[0]+row[2]:
+            return row[1] + (seed - row[0])
     return seed
 
 
@@ -73,20 +78,69 @@ def test_case_one():
         print(seed, soil, fertilizer, water, light, temperature, humidity, location)
 
 
-seeds, seed_to_soil, soil_to_fertilizer, fertilizer_to_water, water_to_light, light_to_temperature, temperature_to_humidity, humidity_to_location = process_data(
-    "input.txt")
+def task_one(input):
+    apply_transformations(input)
 
-min_location = 1e100
-for seed in seeds:
-    soil = apply_map(seed, seed_to_soil)
-    fertilizer = apply_map(soil, soil_to_fertilizer)
-    water = apply_map(fertilizer, fertilizer_to_water)
-    light = apply_map(water, water_to_light)
-    temperature = apply_map(light, light_to_temperature)
-    humidity = apply_map(temperature, temperature_to_humidity)
-    location = apply_map(humidity, humidity_to_location)
+
+def apply_transformations(input):
+    seeds, seed_to_soil, soil_to_fertilizer, fertilizer_to_water, water_to_light, light_to_temperature, temperature_to_humidity, humidity_to_location = process_data(input)
+    min_location = 1e100
+    for seed in seeds:
+        soil = apply_map(seed, seed_to_soil)
+        fertilizer = apply_map(soil, soil_to_fertilizer)
+        water = apply_map(fertilizer, fertilizer_to_water)
+        light = apply_map(water, water_to_light)
+        temperature = apply_map(light, light_to_temperature)
+        humidity = apply_map(temperature, temperature_to_humidity)
+        location = apply_map(humidity, humidity_to_location)
+        if location < min_location:
+            min_location = location
+    print(min_location)
+
+
+def task_one_inverse(input):
+    apply_transformations_inverse(input)
+
+
+def apply_transformations_inverse(input):
+    seeds, seed_to_soil, soil_to_fertilizer, fertilizer_to_water, water_to_light, light_to_temperature, temperature_to_humidity, humidity_to_location = process_data(
+        input)
+    seed = 0
+    location = -1
+    while seed not in seeds:
+        location += 1
+        humidity = inverze_apply_map(location, humidity_to_location)
+        temperature = inverze_apply_map(humidity, temperature_to_humidity)
+        light = inverze_apply_map(temperature, light_to_temperature)
+        water = inverze_apply_map(light, water_to_light)
+        fertilizer = inverze_apply_map(water, fertilizer_to_water)
+        soil = inverze_apply_map(fertilizer, soil_to_fertilizer)
+        seed = inverze_apply_map(soil, seed_to_soil)
     print(location)
-    if location < min_location:
-        min_location = location
 
-print(min_location)
+
+def task_two():
+    seeds, seed_to_soil, soil_to_fertilizer, fertilizer_to_water, water_to_light, light_to_temperature, temperature_to_humidity, humidity_to_location = process_data(
+        "input.txt")
+    min_location = 1e100
+    total_seed_ranges = len(seeds[::2])
+    i = 1
+    for seed_range_start, seed_range_length in zip(seeds[::2], seeds[1::2]):
+        # print(seed_range_start, seed_range_length)
+        print(f"processing seed range {i} out of {total_seed_ranges}")
+        i += 1
+        for seed in range(seed_range_start, seed_range_start + seed_range_length):
+            soil = apply_map(seed, seed_to_soil)
+            fertilizer = apply_map(soil, soil_to_fertilizer)
+            water = apply_map(fertilizer, fertilizer_to_water)
+            light = apply_map(water, water_to_light)
+            temperature = apply_map(light, light_to_temperature)
+            humidity = apply_map(temperature, temperature_to_humidity)
+            location = apply_map(humidity, humidity_to_location)
+            # print(location)
+            if location < min_location:
+                min_location = location
+    print(min_location)
+
+task_one("test_data.txt")
+task_one_inverse("test_data.txt")
