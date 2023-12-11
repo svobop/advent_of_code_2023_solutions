@@ -119,7 +119,7 @@ def apply_transformations_inverse(input):
     print(location)
 
 
-def task_two():
+def task_two_check_interval_density():
     seeds, seed_to_soil, soil_to_fertilizer, fertilizer_to_water, water_to_light, light_to_temperature, temperature_to_humidity, humidity_to_location = process_data(
         "input.txt")
     min_location = 1e100
@@ -143,4 +143,36 @@ def task_two():
     ax.barh(indexes, width=seed_intervals_lengths, left=seed_intervals_starts, height=0.3)
     plt.show()
 
-task_two()
+def task_two_inverse(input):
+    seeds, seed_to_soil, soil_to_fertilizer, fertilizer_to_water, water_to_light, light_to_temperature, temperature_to_humidity, humidity_to_location = process_data(
+        input)
+
+    intervals = list()
+    for seed_range_start, seed_range_length in zip(seeds[::2], seeds[1::2]):
+        intervals.append(range(seed_range_start, seed_range_start + seed_range_length))
+
+    def in_intervals(seed, intervals):
+        is_in = False
+        for interval in intervals:
+            if seed in interval:
+                is_in = True
+        return is_in
+
+    seed = 0
+    location = -1
+    if location%100_000_000 == 0:
+        print(location)
+    while not in_intervals(seed, intervals):
+        location += 1
+        humidity = inverze_apply_map(location, humidity_to_location)
+        temperature = inverze_apply_map(humidity, temperature_to_humidity)
+        light = inverze_apply_map(temperature, light_to_temperature)
+        water = inverze_apply_map(light, water_to_light)
+        fertilizer = inverze_apply_map(water, fertilizer_to_water)
+        soil = inverze_apply_map(fertilizer, soil_to_fertilizer)
+        seed = inverze_apply_map(soil, seed_to_soil)
+    print(location)
+
+
+task_two_inverse("input.txt")
+
