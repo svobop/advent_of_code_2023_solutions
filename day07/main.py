@@ -128,8 +128,11 @@ def hand_value(hand):
 
 def hand_value_joker(hand):
     card_value_string = "".join([str(card_value_joker(_)).zfill(2) for _ in list(hand)])
-    if "J" in hand:
+    if hand == "JJJJJ":
+        hand = "AAAAA"
+    elif "J" in hand:
         hist = hand_histogram(hand)
+        hist.pop("J") # don't replace J for J !!!
         hand = hand.replace("J", max(hist, key=hist.get))
         print(hand)
 
@@ -167,5 +170,5 @@ def task_two(input):
     print(total)
 
 
-task_two("test_data.txt")
+task_two("input.txt")
 
