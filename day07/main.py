@@ -105,15 +105,15 @@ def hand_value(hand):
         return "7" + card_value_string
 
 
-def test_case_one():
+def task_one(input):
     total = 0
     i = 1
-    for hand, bid in sorted(process_data("test_data.txt"), key=lambda x: hand_value(x[0]), reverse=True):
-        print(hand, i, bid)
+    for hand, bid in sorted(process_data(input), key=lambda x: hand_value(x[0]), reverse=True):
+        # print(hand, i, bid)
         total += i * bid
         i += 1
     print(total)
 
 
-test_case_one()
+task_one("input.txt")
 
