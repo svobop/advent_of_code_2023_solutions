@@ -124,23 +124,23 @@ def task_two():
         "input.txt")
     min_location = 1e100
     total_seed_ranges = len(seeds[::2])
-    i = 1
+    index = 0
+    indexes = list()
+    seed_intervals_starts = list()
+    seed_intervals_lengths = list()
     for seed_range_start, seed_range_length in zip(seeds[::2], seeds[1::2]):
-        # print(seed_range_start, seed_range_length)
-        print(f"processing seed range {i} out of {total_seed_ranges}")
-        i += 1
-        for seed in range(seed_range_start, seed_range_start + seed_range_length):
-            soil = apply_map(seed, seed_to_soil)
-            fertilizer = apply_map(soil, soil_to_fertilizer)
-            water = apply_map(fertilizer, fertilizer_to_water)
-            light = apply_map(water, water_to_light)
-            temperature = apply_map(light, light_to_temperature)
-            humidity = apply_map(temperature, temperature_to_humidity)
-            location = apply_map(humidity, humidity_to_location)
-            # print(location)
-            if location < min_location:
-                min_location = location
-    print(min_location)
+        seed_intervals_starts.append(seed_range_start)
+        seed_intervals_lengths.append(seed_range_length)
+        indexes.append(index)
+        index += 1
 
-task_one("test_data.txt")
-task_one_inverse("test_data.txt")
+
+    print(seed_intervals_starts)
+    print(seed_intervals_lengths)
+    print(indexes)
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots()
+    ax.barh(indexes, width=seed_intervals_lengths, left=seed_intervals_starts, height=0.3)
+    plt.show()
+
+task_two()
