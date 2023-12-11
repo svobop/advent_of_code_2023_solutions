@@ -17,8 +17,8 @@ def optimum_hold_time(time):
     return time/2
 
 
-def test_case_one():
-    for time, distance in process_data("test_data.txt"):
+def test_case_one(input):
+    for time, distance in process_data(input):
         optimum_hold_time_ = int(optimum_hold_time(time))
         increment = 0
         ways_to_win = list()
@@ -32,5 +32,20 @@ def test_case_one():
         ways_to_win = set(ways_to_win)
         print(time, distance, ways_to_win, len(ways_to_win))
 
+def task_one(input):
+    product = 1
+    for time, distance in process_data(input):
+        optimum_hold_time_ = int(optimum_hold_time(time))
+        increment = 0
+        ways_to_win = list()
+        while distance_formula(time, optimum_hold_time_ + increment) > distance:
+            ways_to_win.append(optimum_hold_time_ + increment)
+            increment += 1
+        increment = 0
+        while distance_formula(time, optimum_hold_time_ - increment) > distance:
+            ways_to_win.append(optimum_hold_time_ - increment)
+            increment += 1
+        product *= len(set(ways_to_win))
+    return product
 
-test_case_one()
+print(task_one("input.txt"))
