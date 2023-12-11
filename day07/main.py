@@ -21,9 +21,30 @@ CARD_VALUE = {
     "3": 12,
     "2": 13
 }
+
+CARD_VALUE_JOKER = {
+    "A": 1,
+    "K": 2,
+    "Q": 3,
+    "J": 13,
+    "T": 4,
+    "9": 5,
+    "8": 6,
+    "7": 7,
+    "6": 8,
+    "5": 9,
+    "4": 10,
+    "3": 11,
+    "2": 12
+}
+
+
 def card_value(card):
     return CARD_VALUE[card]
 
+
+def card_value_joker(card):
+    return CARD_VALUE_JOKER[card]
 
 def is_five_of_a_kind(hand):
     if len(set(hand)) == 1:
@@ -105,6 +126,28 @@ def hand_value(hand):
         return "7" + card_value_string
 
 
+def hand_value_joker(hand):
+    card_value_string = "".join([str(card_value_joker(_)).zfill(2) for _ in list(hand)])
+    if "J" in hand:
+        hist = hand_histogram(hand)
+        hand = hand.replace("J", max(hist, key=hist.get))
+        print(hand)
+
+    if is_five_of_a_kind(hand):
+        return "1" + card_value_string
+    elif is_four_of_a_kind(hand):
+        return "2" + card_value_string
+    elif is_full_house(hand):
+        return "3" + card_value_string
+    elif is_three_of_a_kind(hand):
+        return "4" + card_value_string
+    elif is_two_pair(hand):
+        return "5" + card_value_string
+    elif is_one_pair(hand):
+        return "6" + card_value_string
+    elif is_high_card(hand):
+        return "7" + card_value_string
+
 def task_one(input):
     total = 0
     i = 1
@@ -114,6 +157,15 @@ def task_one(input):
         i += 1
     print(total)
 
+def task_two(input):
+    total = 0
+    i = 1
+    for hand, bid in sorted(process_data(input), key=lambda x: hand_value_joker(x[0]), reverse=True):
+        print(hand, i, bid)
+        total += i * bid
+        i += 1
+    print(total)
 
-task_one("input.txt")
+
+task_two("test_data.txt")
 
