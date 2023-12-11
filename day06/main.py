@@ -25,11 +25,10 @@ def test_case_one(input):
         while distance_formula(time, optimum_hold_time_ + increment) > distance:
             ways_to_win.append(optimum_hold_time_ + increment)
             increment += 1
-        increment = 0
+        increment = 1
         while distance_formula(time, optimum_hold_time_ - increment) > distance:
             ways_to_win.append(optimum_hold_time_ - increment)
             increment += 1
-        ways_to_win = set(ways_to_win)
         print(time, distance, ways_to_win, len(ways_to_win))
 
 def task_one(input):
@@ -41,11 +40,13 @@ def task_one(input):
         while distance_formula(time, optimum_hold_time_ + increment) > distance:
             ways_to_win.append(optimum_hold_time_ + increment)
             increment += 1
-        increment = 0
+        increment = 1
         while distance_formula(time, optimum_hold_time_ - increment) > distance:
             ways_to_win.append(optimum_hold_time_ - increment)
             increment += 1
-        product *= len(set(ways_to_win))
+        product *= len(ways_to_win)
     return product
+
+test_case_one("test_data.txt")
 
 print(task_one("input.txt"))
