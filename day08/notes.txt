@@ -1,0 +1,33 @@
+Brute force is too slow.
+
+['AAA', 'QRA', 'KQA', 'DFA', 'DBA', 'HJA']
+0 ['AAA', 'QRA', 'KQA', 'DFA', 'DBA', 'HJA'] 0 0
+12599 ['FPX', 'JHD', 'RRR', 'VGZ', 'KPN', 'PKR'] 1 1
+17873 ['ZZZ', 'JLT', 'XQM', 'RNL', 'VGC', 'FSL'] 1 1
+45343801 ['ZZZ', 'QFP', 'QQZ', 'VGZ', 'PRC', 'PQK'] 3 3
+
+The least common multiple approach
+
+43, 59, 61, 67, 71, 73 are number of cycles before Z appear in the end
+all primes
+293 is a length of a cycle
+therefore the right answer is
+43×59×61×67×71×73×293=15746133679061
+
+I don't want to actually implement the least common multiple for the general case when I don't get primes.
+
+Brute force would take decades to finish.
+
+12599 43.0 ['FPX', 'JHD', 'RRR', 'VGZ', 'KPN', 'PKR'] 1 1 [0, 0, 0, 1, 0, 0]
+17287 59.0 ['CNX', 'QSX', 'QQZ', 'JDB', 'BCD', 'NQK'] 1 1 [0, 0, 1, 1, 0, 0]
+17873 61.0 ['ZZZ', 'JLT', 'XQM', 'RNL', 'VGC', 'FSL'] 1 1 [1, 0, 1, 1, 0, 0]
+19631 67.0 ['HGH', 'XVZ', 'FSV', 'TTD', 'GDF', 'GLM'] 1 1 [1, 1, 1, 1, 0, 0]
+20803 71.0 ['GST', 'JTM', 'XSD', 'KMF', 'NKV', 'QFZ'] 1 1 [1, 1, 1, 1, 0, 1]
+21389 73.0 ['PLN', 'MXH', 'LFH', 'QRD', 'PPZ', 'GDD'] 1 1 [1, 1, 1, 1, 1, 1]
+25198 86.0 ['TVR', 'TNH', 'TNJ', 'VGZ', 'HVT', 'PLF'] 1 1 [1, 1, 1, 2, 1, 1]
+34574 118.0 ['HSR', 'LKV', 'QQZ', 'MST', 'KSR', 'GXH'] 1 1 [1, 1, 2, 2, 1, 1]
+35746 122.0 ['ZZZ', 'XFV', 'DNG', 'RFD', 'CCV', 'STR'] 1 1 [2, 1, 2, 2, 1, 1]
+37797 129.0 ['FHL', 'DKB', 'CDT', 'VGZ', 'LBB', 'GLK'] 1 1 [2, 1, 2, 3, 1, 1]
+39262 134.0 ['PLN', 'XVZ', 'LGB', 'VFN', 'VGC', 'XNQ'] 1 1 [2, 2, 2, 3, 1, 1]
+41606 142.0 ['DSS', 'LQF', 'KFM', 'DBK', 'JNX', 'QFZ'] 1 1 [2, 2, 2, 3, 1, 2]
+42778 146.0 ['GDS', 'FBL', 'PCQ', 'GCH', 'PPZ', 'FFD'] 1 1 [2, 2, 2, 3, 2, 2]
